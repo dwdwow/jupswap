@@ -9,7 +9,8 @@ import {homedir} from "os";
 
 const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8")
 
-const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY.slice(0, -1);
+// const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY.slice(0, -1);
+const RPC = 'https://solana-mainnet.g.alchemy.com/v2/alch-demo/';
 // const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
