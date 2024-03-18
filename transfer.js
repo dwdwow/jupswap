@@ -20,7 +20,7 @@ function transferSol(fromKeyPair, toPubkey, amount) {
 
         // Sign transaction, broadcast, and confirm
         const signature = sendAndConfirmTransaction(connection, transaction, [fromKeyPair]);
-        console.log('SIGNATURE', signature);
+        console.log('SIGNATURE', (await signature));
     })()
 }
 
