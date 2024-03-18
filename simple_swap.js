@@ -61,6 +61,7 @@ const swapServer = http.createServer(async (req, res) => {
     const inputMint = q.inputMint;
     const outputMint = q.outputMint;
     const amount = q.amount;
+    console.info("new request", "inputMint", inputMint, "outputMin", outputMint, "amount", amount, "slippage", q.slippageBps)
     if (inputMint === undefined || outputMint === undefined || amount === undefined) {
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain');
