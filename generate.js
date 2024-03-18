@@ -1,6 +1,7 @@
 import {Keypair} from "@solana/web3.js";
 import * as fs from "fs";
 import {homedir} from "os";
+import base58 from "bs58";
 
 function generateAndSavePrivateKey() {
     const pair = Keypair.generate()
@@ -14,8 +15,10 @@ function generateAndSavePrivateKey() {
         console.info(newPair.publicKey.toString())
     }
 
-    fs.writeFileSync(homedir() + "/key/solana/arbi1", pair.secretKey)
-    fs.writeFileSync(homedir() + "/key_copied/solana/arbi1", pair.secretKey)
+    const sk = base58.encode(pair.secretKey)
+
+    fs.writeFileSync(homedir() + "/key/solana/arbi1", sk)
+    fs.writeFileSync(homedir() + "/key_copied/solana/arbi1", sk)
 }
 
-// generateAndSavePrivateKey()
+generateAndSavePrivateKey()
