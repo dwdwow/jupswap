@@ -7,11 +7,11 @@ import url from "url";
 import * as http from "http";
 import {homedir} from "os";
 
-const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
-const KEY_FILE = homedir() + '/key/solana/arbi1'
+const RPC = 'https://solana-mainnet.g.alchemy.com/v2/alch-demo';
+const KEY_FILE = homedir() + '/key/solana/arbi1';
 
 function readPrivateKey(filePath) {
-    return fs.readFileSync(filePath, 'utf8')
+    return fs.readFileSync(filePath, 'utf8');
 }
 
 async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50) {
@@ -20,6 +20,8 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
     const connection = new Connection(RPC);
 
     const wallet = new Wallet(Keypair.fromSecretKey(bs58.decode(privateKey)));
+
+    console.log("using wallet", wallet.publicKey)
 
     const quoteResponse = await (await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippageBps}`)).json();
 
@@ -54,21 +56,22 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
 const hostname = '127.0.0.1';
 const port = 3000;
 
-const privateKey = readPrivateKey(KEY_FILE)
+const privateKey = readPrivateKey(KEY_FILE);
 
 const swapServer = http.createServer(async (req, res) => {
     const q = url.parse(req.url, true).query;
     const inputMint = q.inputMint;
     const outputMint = q.outputMint;
     const amount = q.amount;
-    console.info("new request", "inputMint", inputMint, "outputMin", outputMint, "amount", amount, "slippage", q.slippageBps)
+    console.info("new request", "inputMint", inputMint, "outputMin", outputMint, "amount", amount, "slippage", q.slippageBps);
     if (inputMint === undefined || outputMint === undefined || amount === undefined) {
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain');
         res.end('params are not completed\n');
         return
     }
-    const txId = await swap(privateKey, inputMint, outputMint, amount, q.slippageBps)
+    const txId = await swap(privateKey, inputMint, outputMint, amount, q.slippageBps);
+    console.info("txId", txId)
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     res.end(txId + '\n');
