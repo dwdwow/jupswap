@@ -5,9 +5,10 @@ import bs58 from 'bs58';
 import fs from 'node:fs';
 import url from "url";
 import * as http from "http";
+import {homedir} from "os";
 
 const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
-const KEY_FILE = ''
+const KEY_FILE = homedir() + '/key/solana/arbi1'
 
 function readPrivateKey(filePath) {
     return fs.readFileSync(filePath, 'utf8')
