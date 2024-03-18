@@ -5,7 +5,6 @@ import base58 from "bs58";
 
 function readAndPrintKey() {
     const data = fs.readFileSync(homedir() + "/key/solana/arbi1", "utf8")
-    console.log(data)
     const pair = Keypair.fromSecretKey(base58.decode(data))
     console.log(pair.publicKey.toString())
 }
