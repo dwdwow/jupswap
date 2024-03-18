@@ -12,9 +12,10 @@ const KEY_FILE = homedir() + '/key/solana/arbi1';
 
 function transferSol(fromKeyPair, toKeyPair, amount) {
     (async () => {
+        console.log(fromKeyPair.publicKey.toString(), toKeyPair.publicKey.toString())
         const connection = new Connection(RPC)
         const transaction = new Transaction().add(SystemProgram.transfer({
-            fromPubkey: fromKeyPair.publicKey, toPubkey: toKeyPair.publicKey, lamports: LAMPORTS_PER_SOL / 10000,
+            fromPubkey: fromKeyPair.publicKey, toPubkey: toKeyPair.publicKey, lamports: amount,
         }),);
 
         // Sign transaction, broadcast, and confirm
@@ -26,9 +27,8 @@ function transferSol(fromKeyPair, toKeyPair, amount) {
 function transferWithArbi1() {
     const keyStr = fs.readFileSync(KEY_FILE, 'utf8')
     const fromKeyPair = Keypair.fromSecretKey(base58.decode(keyStr))
-    console.log("from", fromKeyPair.publicKey.toString())
     const toKeyPair = Keypair.generate()
-    transferSol(fromKeyPair, toKeyPair)
+    transferSol(fromKeyPair, toKeyPair, 1)
 }
 
 transferWithArbi1()
