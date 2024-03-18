@@ -9,7 +9,8 @@ import {homedir} from "os";
 
 const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8")
 
-const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
+// const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
+const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
 console.log("RPC", RPC)
@@ -53,8 +54,6 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
 
     // Execute the transaction
     const rawTransaction = transaction.serialize()
-
-    console.log("rawTx", new TextDecoder().decode(rawTransaction))
 
     return await connection.sendRawTransaction(rawTransaction, {
         skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
