@@ -5,7 +5,9 @@ import {
 import * as fs from "fs";
 import base58 from "bs58";
 
-const RPC = 'https://solana-mainnet.g.alchemy.com/v2/docs-demo/';
+const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8").slice(0, -1)
+const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
+;
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
 function transferSol(fromKeyPair, toKeyPair, amount) {
