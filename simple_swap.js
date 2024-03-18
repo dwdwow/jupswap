@@ -12,6 +12,8 @@ const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf
 const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
+console.log("RPC", RPC)
+
 function readPrivateKey(filePath) {
     return fs.readFileSync(filePath, 'utf8');
 }
@@ -19,7 +21,7 @@ function readPrivateKey(filePath) {
 async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50) {
     // It is recommended that you use your own RPC endpoint.
     // This RPC endpoint is only for demonstration purposes so that this example will run.
-    const connection = new Connection(RPC);
+    const connection = new Connection(RPC, "confirmed");
 
     const wallet = new Wallet(Keypair.fromSecretKey(bs58.decode(privateKey)));
 
@@ -52,7 +54,7 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
     // Execute the transaction
     const rawTransaction = transaction.serialize()
     return await connection.sendRawTransaction(rawTransaction, {
-        skipPreflight: true, maxRetries: 2
+        skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
     });
 }
 
