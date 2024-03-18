@@ -16,7 +16,7 @@ const KEY_FILE = homedir() + '/key/solana/arbi1';
 console.log("RPC", RPC)
 
 function readPrivateKey(filePath) {
-    return fs.readFileSync(filePath, 'utf8').slice(0, -1);
+    return fs.readFileSync(filePath, 'utf8');
 }
 
 async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50) {
