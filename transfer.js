@@ -12,7 +12,7 @@ function transferSol(fromKeyPair, toKeyPair, amount) {
     (async () => {
         const connection = new Connection(RPC)
         const transaction = new Transaction().add(SystemProgram.transfer({
-            fromPubkey: fromKeyPair.publicKey, toPubkey: toKeyPair.publicKey, lamports: LAMPORTS_PER_SOL / 100,
+            fromPubkey: fromKeyPair.publicKey, toPubkey: toKeyPair.publicKey, lamports: LAMPORTS_PER_SOL / 10000,
         }),);
 
         // Sign transaction, broadcast, and confirm
