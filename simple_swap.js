@@ -32,6 +32,8 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
     console.log(inputMint, outputMint, amount, slippageBps)
     const quoteResponse = await (await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippageBps}`)).json();
 
+    console.log(quoteResponse)
+
     // get serialized transactions for the swap
     const {swapTransaction} = await (await fetch('https://quote-api.jup.ag/v6/swap', {
         method: 'POST', headers: {
@@ -56,8 +58,6 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
 
     // Execute the transaction
     const rawTransaction = transaction.serialize()
-
-    console.log(new TextDecoder().decode(rawTransaction))
 
     return await connection.sendRawTransaction(rawTransaction, {
         skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
