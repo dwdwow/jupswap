@@ -9,14 +9,14 @@ import {homedir} from "os";
 
 const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8")
 
-// const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
-const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
+const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY.slice(0, -1);
+// const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
 console.log("RPC", RPC)
 
 function readPrivateKey(filePath) {
-    return fs.readFileSync(filePath, 'utf8');
+    return fs.readFileSync(filePath, 'utf8').slice(0, -1);
 }
 
 async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50) {
