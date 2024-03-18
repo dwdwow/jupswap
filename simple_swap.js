@@ -7,7 +7,9 @@ import url from "url";
 import * as http from "http";
 import {homedir} from "os";
 
-const RPC = 'https://solana-mainnet.g.alchemy.com/v2/alch-demo';
+const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8")
+
+const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
 function readPrivateKey(filePath) {
@@ -21,7 +23,7 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
 
     const wallet = new Wallet(Keypair.fromSecretKey(bs58.decode(privateKey)));
 
-    console.log("using wallet", wallet.publicKey)
+    console.log("using wallet", wallet.publicKey.toString())
 
     const quoteResponse = await (await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippageBps}`)).json();
 
