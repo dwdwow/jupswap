@@ -22,7 +22,7 @@ function transferSol(fromKeyPair, toKeyPair, amount) {
 }
 
 function transferWithArbi1() {
-    const keyStr = fs.readFileSync(KEY_FILE)
+    const keyStr = fs.readFileSync(KEY_FILE, 'utf8')
     const fromKeyPair = Keypair.fromSecretKey(base58.decode(keyStr))
     const toKeyPair = Keypair.generate()
     transferSol(fromKeyPair, toKeyPair)
