@@ -28,6 +28,7 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
 
     console.log("using wallet", wallet.publicKey.toString())
 
+    console.log(inputMint, outputMint, amount, slippageBps)
     const quoteResponse = await (await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippageBps}`)).json();
 
     // get serialized transactions for the swap
