@@ -54,7 +54,7 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
     // Execute the transaction
     const rawTransaction = transaction.serialize()
 
-    console.log("rawTx", rawTransaction.toString())
+    console.log("rawTx", new TextDecoder().decode(rawTransaction))
 
     return await connection.sendRawTransaction(rawTransaction, {
         skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
