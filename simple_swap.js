@@ -43,10 +43,11 @@ async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50)
     // deserialize the transaction
     const swapTransactionBuf = Buffer.from(swapTransaction, 'base64');
     const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
-    console.log(transaction);
 
     // sign the transaction
     transaction.sign([wallet.payer]);
+
+    console.log(transaction)
 
     // Execute the transaction
     const rawTransaction = transaction.serialize()
