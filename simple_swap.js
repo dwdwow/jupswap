@@ -3,15 +3,17 @@ import fetch from 'cross-fetch';
 import {Wallet} from '@project-serum/anchor';
 import bs58 from 'bs58';
 import fs from 'node:fs';
+import url from "url";
+import * as http from "http";
 
 const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
 const KEY_FILE = ''
 
-function readPrivateKey(filePath: string): string {
+function readPrivateKey(filePath) {
     return fs.readFileSync(filePath, 'utf8')
 }
 
-async function swap(privateKey: string, inputMint: string, outputMint: string, amount: number, slippageBps: number = 50): Promise<string> {
+async function swap(privateKey, inputMint, outputMint, amount, slippageBps = 50) {
     // It is recommended that you use your own RPC endpoint.
     // This RPC endpoint is only for demonstration purposes so that this example will run.
     const connection = new Connection(RPC);
@@ -47,3 +49,29 @@ async function swap(privateKey: string, inputMint: string, outputMint: string, a
         skipPreflight: true, maxRetries: 2
     });
 }
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const privateKey = readPrivateKey(KEY_FILE)
+
+const swapServer = http.createServer(async (req, res) => {
+    const q = url.parse(req.url, true).query;
+    const inputMint = q.inputMint;
+    const outputMint = q.outputMint;
+    const amount = q.amount;
+    if (inputMint === undefined || outputMint === undefined || amount === undefined) {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('params are not completed\n');
+        return
+    }
+    const txId = await swap(privateKey, inputMint, outputMint, amount, q.slippageBps)
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end(txId + '\n');
+});
+
+swapServer.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
