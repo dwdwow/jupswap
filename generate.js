@@ -17,3 +17,5 @@ function generateAndSavePrivateKey() {
     fs.writeFileSync(homedir() + "/key/solana/arbi1", pair.secretKey)
     fs.writeFileSync(homedir() + "/key_copied/solana/arbi1", pair.secretKey)
 }
+
+generateAndSavePrivateKey()
