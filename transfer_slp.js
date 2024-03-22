@@ -20,7 +20,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     console.log(`Destination Account: ${destinationAccount.address.toString()}`);
 
     //Step 3
-    console.log(`4 - Creating and Sending Transaction`);
+    console.log(`3 - Creating and Sending Transaction`);
     const tx = new Transaction();
     tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount))
 
@@ -49,6 +49,8 @@ const KEY_FILE = homedir() + '/key/solana/arbi1';
 function readPrivateKey() {
     return fs.readFileSync(KEY_FILE, 'utf8');
 }
+
+console.log(readPrivateKey())
 
 const fromPair = new Wallet(Keypair.fromSecretKey(bs58.decode(readPrivateKey())));
 
