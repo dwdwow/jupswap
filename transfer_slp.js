@@ -24,9 +24,6 @@ const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
 
 const connect = new Connection(RPC)
 
-(async function () {
-    const decimals = getNumberDecimals(connect, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82")
-    console.log(decimals)
-})()
+getNumberDecimals(connect, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82").then((value) => console.log)
 
 
