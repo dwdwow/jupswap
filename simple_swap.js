@@ -82,7 +82,7 @@ const swapServer = http.createServer(async (req, res) => {
         return
     }
     const txId = await swap(privateKey, inputMint, outputMint, amount, q.slippageBps);
-    console.info("txId", txId)
+    console.info("txId", txId);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     res.end(txId + '\n');
