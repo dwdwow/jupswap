@@ -22,7 +22,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     //Step 3
     console.log(`3 - Creating and Sending Transaction`);
     const tx = new Transaction();
-    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount))
+    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount, [fromPair]))
 
     const latestBlockHash = await connection.getLatestBlockhash('confirmed');
     tx.recentBlockhash = await latestBlockHash.blockhash;
@@ -49,8 +49,6 @@ const KEY_FILE = homedir() + '/key/solana/arbi1';
 function readPrivateKey() {
     return fs.readFileSync(KEY_FILE, 'utf8');
 }
-
-console.log(readPrivateKey())
 
 const fromPair = new Wallet(Keypair.fromSecretKey(bs58.decode(readPrivateKey())));
 
