@@ -27,10 +27,14 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     console.log("Transfer Instruction Created")
 
     //Step 4
+    // console.log(`4 - Signing Transaction`)
+    // tx.sign([])
+
+    //Step 4
     console.log(`4 - Sending Transaction`)
     const latestBlockHash = await connection.getLatestBlockhash('confirmed');
     tx.recentBlockhash = await latestBlockHash.blockhash;
-    const signature = await sendAndConfirmTransaction(connection, tx, [fromPair]);
+    const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
     console.log('\x1b[32m', //Green Text
         `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 }
