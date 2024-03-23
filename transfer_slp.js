@@ -1,6 +1,6 @@
 import {getOrCreateAssociatedTokenAccount, createTransferInstruction} from "@solana/spl-token";
 import {
-    Connection, Keypair, PublicKey, sendAndConfirmTransaction, Transaction
+    Connection, Keypair, PublicKey, sendAndConfirmTransaction, Transaction, VersionedTransaction
 } from "@solana/web3.js";
 import {homedir} from "os";
 import * as fs from "fs";
@@ -23,31 +23,31 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     //Step 3
     console.log(`3 - Creating Transaction`);
     const tx = new Transaction();
-    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount))
+    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount, [fromPair.payer]))
     console.log("Transfer Instruction Created")
 
-    // //Step 4
-    // console.log(`4 - Signing Transaction`)
+    //Step 4
+    console.log(`4 - Signing Transaction`)
     // tx.sign([fromPair.payer])
-    // console.log(`Transaction Signed`)
-    //
-    // //Step 5
-    // console.log(`5 - Sending Transaction`)
-    // const rawTransaction = tx.serialize()
-    // const sendResult = await connection.sendRawTransaction(rawTransaction, {
-    //     skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
-    // });
-    // console.log(`Transaction Send`)
-    //
-    // return sendResult
+    console.log(`Transaction Signed`)
+
+    //Step 5
+    console.log(`5 - Sending Transaction`)
+    const rawTransaction = tx.serialize()
+    const sendResult = await connection.sendRawTransaction(rawTransaction, {
+        skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
+    });
+    console.log(`Transaction Send`)
+
+    return sendResult
 
     //Step 4
-    console.log(`4 - Sending Transaction`)
+    // console.log(`4 - Sending Transaction`)
     // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
     // tx.recentBlockhash = await latestBlockHash.blockhash;
-    const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
-    console.log('\x1b[32m', //Green Text
-        `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+    // const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
+    // console.log('\x1b[32m', //Green Text
+    //     `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 }
 
 async function getNumberDecimals(connection, mintAddress) {
@@ -71,6 +71,6 @@ function readPrivateKey() {
 
 const fromPair = new Wallet(Keypair.fromSecretKey(bs58.decode(readPrivateKey())));
 
+console.log("Wallet", fromPair.publicKey.toString())
+
 transferSpl(connect, fromPair, "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU", "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 300000000).then()
-
-
