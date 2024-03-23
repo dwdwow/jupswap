@@ -24,17 +24,18 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     console.log(`3 - Creating Transaction`);
     const tx = new Transaction();
     tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount))
-    const transaction = VersionedTransaction.deserialize(tx.serialize())
+    const latestBlockHash = await connection.getLatestBlockhash('confirmed');
+    tx.recentBlockhash = await latestBlockHash.blockhash;
     console.log("Transfer Instruction Created")
 
     //Step 4
     console.log(`4 - Signing Transaction`)
-    transaction.sign([fromPair.payer])
+    tx.sign([fromPair.payer])
     console.log(`Transaction Signed`)
 
     //Step 5
     console.log(`5 - Sending Transaction`)
-    const rawTransaction = transaction.serialize()
+    const rawTransaction = tx.serialize()
     const sendResult = await connection.sendRawTransaction(rawTransaction, {
         skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
     });
