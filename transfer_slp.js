@@ -9,6 +9,7 @@ import bs58 from "bs58";
 
 async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     console.log(`Sending ${amount} ${(mint)} from ${(fromPair.publicKey.toString())} to ${(toAddr)}.`)
+
     //Step 1
     console.log(`1 - Getting Source Token Account`);
     let sourceAccount = await getOrCreateAssociatedTokenAccount(connection, fromPair, new PublicKey(mint), fromPair.publicKey);
@@ -20,10 +21,13 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     console.log(`Destination Account: ${destinationAccount.address.toString()}`);
 
     //Step 3
-    console.log(`3 - Creating and Sending Transaction`);
+    console.log(`3 - Creating Transaction`);
     const tx = new Transaction();
-    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount, [fromPair]))
+    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount))
+    console.log("Transfer Instruction Created")
 
+    //Step 4
+    console.log(`4 - Sending Transaction`)
     const latestBlockHash = await connection.getLatestBlockhash('confirmed');
     tx.recentBlockhash = await latestBlockHash.blockhash;
     const signature = await sendAndConfirmTransaction(connection, tx, [fromPair]);
