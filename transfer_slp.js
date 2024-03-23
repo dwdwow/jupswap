@@ -28,7 +28,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
 
     //Step 4
     console.log(`4 - Signing Transaction`)
-    tx.sign([fromPair.payer])
+    tx.sign([fromPair])
     console.log(`Transaction Signed`)
 
     //Step 5
