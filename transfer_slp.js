@@ -28,6 +28,9 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount))
     console.log("Transfer Instruction Created")
 
+
+    // TODO
+
     //Step 4
     // console.log(`4 - Signing Transaction`)
     // tx.sign([fromPair.payer])
