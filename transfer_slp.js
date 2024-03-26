@@ -77,4 +77,7 @@ const fromPair = new Wallet(Keypair.fromSecretKey(bs58.decode(readPrivateKey()))
 
 console.log("Wallet", fromPair.publicKey.toString());
 
-transferSpl(connect, fromPair, "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU", "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 300000000).then();
+const bnSelfWalletAddr = "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU";
+const bnHotWalletAddr = "5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9";
+
+transferSpl(connect, fromPair, bnHotWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 300000000).then();
