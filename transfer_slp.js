@@ -46,12 +46,13 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     // return sendResult;
 
     //Step 4
-    // console.log(`4 - Sending Transaction`)
-    // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
-    // tx.recentBlockhash = await latestBlockHash.blockhash;
-    // const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
-    // console.log('\x1b[32m', //Green Text
-    //     `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+    console.log(`4 - Sending Transaction`)
+    const latestBlockHash = await connection.getLatestBlockhash('confirmed');
+    tx.recentBlockhash = await latestBlockHash.blockhash;
+    console.log("Latest Block Hash", tx.recentBlockhash)
+    const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
+    console.log('\x1b[32m', //Green Text
+        `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 }
 
 async function getNumberDecimals(connection, mintAddress) {
@@ -62,6 +63,8 @@ async function getNumberDecimals(connection, mintAddress) {
 const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8").slice(0, -1);
 
 const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
+
+console.log("RPC", RPC)
 
 const connect = new Connection(RPC);
 
