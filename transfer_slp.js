@@ -23,37 +23,35 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     //Step 3
     console.log(`3 - Creating Transaction`);
     const tx = new Transaction();
-    // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
-    // tx.recentBlockhash = await latestBlockHash.blockhash;
     tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount));
     console.log("Transfer Instruction Created");
 
     // TODO
 
-    //Step 4
-    console.log(`4 - Signing Transaction`);
-    const latestBlockHash = await connection.getLatestBlockhash('confirmed');
-    tx.recentBlockhash = await latestBlockHash.blockhash;
-    tx.sign([fromPair.payer]);
-    console.log(`Transaction Signed`);
-
-    //Step 5
-    console.log(`5 - Sending Transaction`);
-    const rawTransaction = tx.serialize();
-    const sendResult = await connection.sendRawTransaction(rawTransaction, {
-        skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
-    });
-    console.log(`Transaction Send`);
-
-    return sendResult;
-
-    //Step 4
-    // console.log(`4 - Sending Transaction`)
+    // //Step 4
+    // console.log(`4 - Signing Transaction`);
     // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
     // tx.recentBlockhash = await latestBlockHash.blockhash;
-    // const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
-    // console.log('\x1b[32m', //Green Text
-    //     `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+    // tx.sign([fromPair.payer]);
+    // console.log(`Transaction Signed`);
+    //
+    // //Step 5
+    // console.log(`5 - Sending Transaction`);
+    // const rawTransaction = tx.serialize();
+    // const sendResult = await connection.sendRawTransaction(rawTransaction, {
+    //     skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
+    // });
+    // console.log(`Transaction Send`);
+    //
+    // return sendResult;
+
+    //Step 4
+    console.log(`4 - Sending Transaction`)
+    const latestBlockHash = await connection.getLatestBlockhash('confirmed');
+    tx.recentBlockhash = await latestBlockHash.blockhash;
+    const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
+    console.log('\x1b[32m', //Green Text
+        `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 }
 
 async function getNumberDecimals(connection, mintAddress) {
