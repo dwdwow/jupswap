@@ -8,7 +8,7 @@ import {Wallet} from "@project-serum/anchor";
 import bs58 from "bs58";
 
 async function transferSpl(connection, fromPair, toAddr, mint, amount) {
-    console.log(`Sending ${amount} ${(mint)} from ${(fromPair.publicKey.toString())} to ${(toAddr)}.`)
+    console.log(`Sending ${amount} ${(mint)} from ${(fromPair.publicKey.toString())} to ${(toAddr)}.`);
 
     //Step 1
     console.log(`1 - Getting Source Token Account`);
@@ -25,28 +25,27 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     const tx = new Transaction();
     // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
     // tx.recentBlockhash = await latestBlockHash.blockhash;
-    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount))
-    console.log("Transfer Instruction Created")
-
+    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount));
+    console.log("Transfer Instruction Created");
 
     // TODO
 
     //Step 4
-    console.log(`4 - Signing Transaction`)
+    console.log(`4 - Signing Transaction`);
     const latestBlockHash = await connection.getLatestBlockhash('confirmed');
     tx.recentBlockhash = await latestBlockHash.blockhash;
-    tx.sign([fromPair.payer])
-    console.log(`Transaction Signed`)
+    tx.sign([fromPair.payer]);
+    console.log(`Transaction Signed`);
 
     //Step 5
-    console.log(`5 - Sending Transaction`)
-    const rawTransaction = tx.serialize()
+    console.log(`5 - Sending Transaction`);
+    const rawTransaction = tx.serialize();
     const sendResult = await connection.sendRawTransaction(rawTransaction, {
         skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
     });
-    console.log(`Transaction Send`)
+    console.log(`Transaction Send`);
 
-    return sendResult
+    return sendResult;
 
     //Step 4
     // console.log(`4 - Sending Transaction`)
@@ -62,11 +61,11 @@ async function getNumberDecimals(connection, mintAddress) {
     return info.value?.data.parsed.info.decimals;
 }
 
-const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8").slice(0, -1)
+const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8").slice(0, -1);
 
 const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
 
-const connect = new Connection(RPC)
+const connect = new Connection(RPC);
 
 // getNumberDecimals(connect, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82").then((value) => console.log(value))
 
@@ -78,6 +77,6 @@ function readPrivateKey() {
 
 const fromPair = new Wallet(Keypair.fromSecretKey(bs58.decode(readPrivateKey())));
 
-console.log("Wallet", fromPair.publicKey.toString())
+console.log("Wallet", fromPair.publicKey.toString());
 
-transferSpl(connect, fromPair, "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU", "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 300000000).then()
+transferSpl(connect, fromPair, "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU", "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 300000000).then();
