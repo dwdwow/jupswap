@@ -96,9 +96,10 @@ const swapServer = http.createServer(async (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.end(txId + '\n');
     } catch (e) {
+        console.error(e.toString())
         res.statusCode = 501;
         res.setHeader('Content-Type', 'text/plain');
-        res.end(e.toString())
+        res.end(e.toString()+"\n")
     }
 });
 
