@@ -9,7 +9,7 @@ import http from "http";
 import url from "url";
 
 async function transferSpl(connection, fromPair, toAddr, mint, amount) {
-    console.log(`Sending ${amount} ${(mint)} from ${(fromPair.publicKey.toString())} to ${(toAddr)}.`);
+    console.log(`Sending ${amount} ${(mint)} from ${(fromPair.publicKey.toString())} to ${(toAddr)}`);
 
     //Step 1
     console.log(`1 - Getting Source Token Account`);
@@ -33,6 +33,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
         // [fromPair]
     )
     console.log("Transferred", signature)
+    return signature
 }
 
 async function transferSpl2(connection, fromPvk, toAddr, mint, amount) {
@@ -88,7 +89,8 @@ const swapServer = http.createServer(async (req, res) => {
         return
     }
     try {
-        const txId = await transferSpl(connect, keyPair, toAddress, mint, amount);
+        const txId = await transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000);
+        // const txId = await transferSpl(connect, keyPair, toAddress, mint, amount);
         console.info("txId", txId);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
