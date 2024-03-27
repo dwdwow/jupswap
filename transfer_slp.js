@@ -66,6 +66,11 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     //     `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 }
 
+async function transferSpl2(connection, fromPvk, toAddr, mint, amount) {
+    const fromPair = Keypair.fromSecretKey(bs58.decode(fromPvk));
+    await transferSpl(connection, fromPair, toAddr, mint, amount)
+}
+
 async function getNumberDecimals(connection, mintAddress) {
     const info = await connection.getParsedAccountInfo(new PublicKey(mintAddress));
     return info.value?.data.parsed.info.decimals;
