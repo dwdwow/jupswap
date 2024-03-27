@@ -33,38 +33,6 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
         [fromPair]
     )
     console.log("Transferred", signature)
-
-    //Step 3
-    // console.log(`3 - Creating Transaction`);
-    // const tx = new Transaction();
-    // tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount));
-    // console.log("Transfer Instruction Created");
-
-    // //Step 4
-    // console.log(`4 - Signing Transaction`);
-    // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
-    // tx.recentBlockhash = await latestBlockHash.blockhash;
-    // tx.sign([fromPair.payer]);
-    // console.log(`Transaction Signed`);
-    //
-    // //Step 5
-    // console.log(`5 - Sending Transaction`);
-    // const rawTransaction = tx.serialize();
-    // const sendResult = await connection.sendRawTransaction(rawTransaction, {
-    //     skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
-    // });
-    // console.log(`Transaction Send`);
-    //
-    // return sendResult;
-
-    //Step 4
-    // console.log(`4 - Sending Transaction`)
-    // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
-    // tx.recentBlockhash = await latestBlockHash.blockhash;
-    // console.log("Latest Block Hash", tx.recentBlockhash)
-    // const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
-    // console.log('\x1b[32m', //Green Text
-    //     `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 }
 
 async function transferSpl2(connection, fromPvk, toAddr, mint, amount) {
@@ -79,8 +47,8 @@ async function getNumberDecimals(connection, mintAddress) {
 
 const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8").slice(0, -1);
 
-// const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
-const RPC = "https://api.mainnet-beta.solana.com"
+const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
+// const RPC = "https://api.mainnet-beta.solana.com"
 
 console.log("RPC", RPC)
 
