@@ -23,14 +23,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
 
     //Step 3
     console.log(`3 - Transferring`)
-    const signature = await transfer(
-        connection,
-        fromPair,
-        sourceAccount.address,
-        destinationAccount.address,
-        fromPair.publicKey,
-        amount,
-        // [fromPair]
+    const signature = await transfer(connection, fromPair, sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount, // [fromPair]
     )
     console.log("Transferred", signature)
     return signature
@@ -48,14 +41,12 @@ async function getNumberDecimals(connection, mintAddress) {
 
 const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8").slice(0, -1);
 
-const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
-// const RPC = "https://api.mainnet-beta.solana.com"
+// const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
+const RPC = "https://api.mainnet-beta.solana.com"
 
 console.log("RPC", RPC)
 
 const connect = new Connection(RPC);
-
-// getNumberDecimals(connect, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82").then((value) => console.log(value))
 
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
@@ -99,7 +90,7 @@ const swapServer = http.createServer(async (req, res) => {
         console.error(e.toString())
         res.statusCode = 501;
         res.setHeader('Content-Type', 'text/plain');
-        res.end(e.toString()+"\n")
+        res.end(e.toString() + "\n")
     }
 });
 
