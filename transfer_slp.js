@@ -116,18 +116,24 @@ const swapServer = http.createServer(async (req, res) => {
 
     const keyPair = Keypair.fromSecretKey(bs58.decode(fromPrivateKey))
 
-    console.info("new request", "mint", mint, "amount", amount, "fromAddress", keyPair.publicKey, "toAddress", toAddress);
+    console.info("new request", "mint", mint, "amount", amount, "fromAddress", keyPair.publicKey.toString(), "toAddress", toAddress);
     if (mint === undefined || amount === undefined || fromPrivateKey === undefined || toAddress === undefined) {
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain');
         res.end('params are not completed\n');
         return
     }
-    const txId = await transferSpl(connect, fromPair, toAddress, mint, amount);
-    console.info("txId", txId);
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end(txId + '\n');
+    try {
+        const txId = await transferSpl(connect, keyPair, toAddress, mint, amount);
+        console.info("txId", txId);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end(txId + '\n');
+    } catch (e) {
+        res.statusCode = 501;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end(e.toString())
+    }
 });
 
 swapServer.listen(port, hostname, () => {
