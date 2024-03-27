@@ -14,7 +14,7 @@ const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
 // const RPC = 'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
 const KEY_FILE = homedir() + '/key/solana/arbi1';
 
-console.log("RPC", RPC)
+console.log("RPC", RPC);
 
 const connection = new Connection(RPC, "confirmed");
 
@@ -23,12 +23,12 @@ function readPrivateKey(filePath) {
 }
 
 async function swap(keyPair, inputMint, outputMint, amount, slippageBps = 50) {
-    console.log("using wallet", keyPair.publicKey.toString())
+    console.log("using wallet", keyPair.publicKey.toString());
 
-    console.log(inputMint, outputMint, amount, slippageBps)
+    console.log(inputMint, outputMint, amount, slippageBps);
     const quoteResponse = await (await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippageBps=${slippageBps}`)).json();
 
-    console.log(quoteResponse)
+    console.log(quoteResponse);
 
     // get serialized transactions for the swap
     const {swapTransaction} = await (await fetch('https://quote-api.jup.ag/v6/swap', {
@@ -50,10 +50,10 @@ async function swap(keyPair, inputMint, outputMint, amount, slippageBps = 50) {
     // sign the transaction
     transaction.sign([keyPair]);
 
-    console.log(transaction)
+    console.log(transaction);
 
     // Execute the transaction
-    const rawTransaction = transaction.serialize()
+    const rawTransaction = transaction.serialize();
 
     return await connection.sendRawTransaction(rawTransaction, {
         skipPreflight: true, maxRetries: 2, preflightCommitment: "processed"
@@ -65,7 +65,7 @@ async function swapWithPvk(privateKey, inputMint, outputMint, amount, slippageBp
     // It is recommended that you use your own RPC endpoint.
     // This RPC endpoint is only for demonstration purposes so that this example will run.
     const keyPair = Keypair.fromSecretKey(bs58.decode(privateKey));
-    return swap(keyPair, inputMint, outputMint, amount, slippageBps)
+    return swap(keyPair, inputMint, outputMint, amount, slippageBps);
 }
 
 const hostname = '127.0.0.1';
@@ -75,12 +75,12 @@ const privateKey = readPrivateKey(KEY_FILE);
 
 const swapServer = http.createServer(async (req, res) => {
     const q = url.parse(req.url, true).query;
-    const fromPrivateKey = q.fromPrivateKey
+    const fromPrivateKey = q.fromPrivateKey;
     const inputMint = q.inputMint;
     const outputMint = q.outputMint;
     const amount = q.amount;
 
-    const keyPair = Keypair.fromSecretKey(bs58.decode(fromPrivateKey))
+    const keyPair = Keypair.fromSecretKey(bs58.decode(fromPrivateKey));
 
     console.info("new request", "signer", keyPair.publicKey.toString(), "inputMint", inputMint, "outputMin", outputMint, "amount", amount, "slippage", q.slippageBps);
     if (fromPrivateKey === undefined || inputMint === undefined || outputMint === undefined || amount === undefined) {
@@ -97,10 +97,10 @@ const swapServer = http.createServer(async (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.end(txId + '\n');
     } catch (e) {
-        console.error(e.toString())
+        console.error(e.toString());
         res.statusCode = 501;
         res.setHeader("Content-Type", "text/plain");
-        res.end(e.toString + "\n")
+        res.end(e.toString + "\n");
     }
 });
 
