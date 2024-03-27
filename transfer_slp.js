@@ -4,7 +4,6 @@ import {
 } from "@solana/web3.js";
 import {homedir} from "os";
 import * as fs from "fs";
-import {Wallet} from "@project-serum/anchor";
 import bs58 from "bs58";
 import http from "http";
 import url from "url";
@@ -102,7 +101,7 @@ console.log("Wallet", fromPair.publicKey.toString());
 const bnSelfWalletAddr = "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU";
 const bnHotWalletAddr = "5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9";
 
-// transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
+transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
 
 const hostname = '127.0.0.1';
 const port = 3001;
@@ -136,6 +135,6 @@ const swapServer = http.createServer(async (req, res) => {
     }
 });
 
-swapServer.listen(port, hostname, () => {
-    console.log(`Server running at ${port}`);
-});
+// swapServer.listen(port, hostname, () => {
+//     console.log(`Server running at ${port}`);
+// });
