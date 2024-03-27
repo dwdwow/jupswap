@@ -30,7 +30,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
         destinationAccount.address,
         fromPair.publicKey,
         amount,
-        [fromPair]
+        // [fromPair]
     )
     console.log("Transferred", signature)
 }
