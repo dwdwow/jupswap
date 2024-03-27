@@ -47,8 +47,8 @@ async function getNumberDecimals(connection, mintAddress) {
 
 const ALCHEMY_API_KEY = fs.readFileSync(homedir() + "/key/alchemy/api_key", "utf8").slice(0, -1);
 
-// const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
-const RPC = "https://api.mainnet-beta.solana.com"
+const RPC = 'https://solana-mainnet.g.alchemy.com/v2/' + ALCHEMY_API_KEY;
+// const RPC = "https://api.mainnet-beta.solana.com"
 
 console.log("RPC", RPC)
 
