@@ -1,4 +1,4 @@
-import {getOrCreateAssociatedTokenAccount, transfer} from "@solana/spl-token";
+import {getOrCreateAssociatedTokenAccount, createTransferInstruction, transfer} from "@solana/spl-token";
 import {
     Connection, Keypair, PublicKey, sendAndConfirmTransaction, Transaction, VersionedTransaction
 } from "@solana/web3.js";
@@ -21,24 +21,22 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     console.log(`Destination Account: ${destinationAccount.address.toString()}`);
 
     //Step 3
-    console.log(`3 - Transferring`)
-    const signature = await transfer(
-        connection,
-        fromPair.payer,
-        sourceAccount.address,
-        destinationAccount.address,
-        fromPair.publicKey,
-        amount
-    )
-    console.log("Transferred", signature)
+    // console.log(`3 - Transferring`)
+    // const signature = await transfer(
+    //     connection,
+    //     fromPair.payer,
+    //     sourceAccount.address,
+    //     destinationAccount.address,
+    //     fromPair.publicKey,
+    //     amount
+    // )
+    // console.log("Transferred", signature)
 
     //Step 3
-    // console.log(`3 - Creating Transaction`);
-    // const tx = new Transaction();
-    // tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount));
-    // console.log("Transfer Instruction Created");
-
-    // TODO
+    console.log(`3 - Creating Transaction`);
+    const tx = new Transaction();
+    tx.add(createTransferInstruction(sourceAccount.address, destinationAccount.address, fromPair.publicKey, amount));
+    console.log("Transfer Instruction Created");
 
     // //Step 4
     // console.log(`4 - Signing Transaction`);
@@ -58,13 +56,13 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     // return sendResult;
 
     //Step 4
-    // console.log(`4 - Sending Transaction`)
-    // const latestBlockHash = await connection.getLatestBlockhash('confirmed');
-    // tx.recentBlockhash = await latestBlockHash.blockhash;
-    // console.log("Latest Block Hash", tx.recentBlockhash)
-    // const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
-    // console.log('\x1b[32m', //Green Text
-    //     `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
+    console.log(`4 - Sending Transaction`)
+    const latestBlockHash = await connection.getLatestBlockhash('confirmed');
+    tx.recentBlockhash = await latestBlockHash.blockhash;
+    console.log("Latest Block Hash", tx.recentBlockhash)
+    const signature = await sendAndConfirmTransaction(connection, tx, [fromPair.payer]);
+    console.log('\x1b[32m', //Green Text
+        `   Transaction Success!🎉`, `\n    https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 }
 
 async function getNumberDecimals(connection, mintAddress) {
