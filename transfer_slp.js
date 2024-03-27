@@ -6,6 +6,8 @@ import {homedir} from "os";
 import * as fs from "fs";
 import {Wallet} from "@project-serum/anchor";
 import bs58 from "bs58";
+import http from "http";
+import url from "url";
 
 async function transferSpl(connection, fromPair, toAddr, mint, amount) {
     console.log(`Sending ${amount} ${(mint)} from ${(fromPair.publicKey.toString())} to ${(toAddr)}.`);
@@ -100,4 +102,34 @@ console.log("Wallet", fromPair.publicKey.toString());
 const bnSelfWalletAddr = "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU";
 const bnHotWalletAddr = "5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9";
 
-transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
+// transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
+
+const hostname = '127.0.0.1';
+const port = 3001;
+
+const swapServer = http.createServer(async (req, res) => {
+    const q = url.parse(req.url, true).query;
+    const mint = q.mint;
+    const amount = q.amount;
+    const fromPrivateKey = q.fromPrivateKey;
+    const toAddress = q.toAddress
+
+    const keyPair = Keypair.fromSecretKey(bs58.decode(fromPrivateKey))
+
+    console.info("new request", "mint", mint, "amount", amount, "fromAddress", keyPair.publicKey, "toAddress", toAddress);
+    if (mint === undefined || amount === undefined || fromPrivateKey === undefined || toAddress === undefined) {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('params are not completed\n');
+        return
+    }
+    const txId = await transferSpl(connect, fromPair, toAddress, mint, amount);
+    console.info("txId", txId);
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end(txId + '\n');
+});
+
+swapServer.listen(port, hostname, () => {
+    console.log(`Server running at ${port}`);
+});
