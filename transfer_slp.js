@@ -30,7 +30,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
         destinationAccount.address,
         fromPair.publicKey,
         amount,
-        [fromPair]
+        // [fromPair]
     )
     console.log("Transferred", signature)
 }
@@ -69,7 +69,7 @@ console.log("Wallet", fromPair.publicKey.toString());
 const bnSelfWalletAddr = "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU";
 const bnHotWalletAddr = "5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9";
 
-transferSpl(connect, fromPair, bnHotWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
+transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
 
 const hostname = '127.0.0.1';
 const port = 3001;
