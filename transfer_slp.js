@@ -28,8 +28,7 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
         sourceAccount.address,
         destinationAccount.address,
         fromPair.publicKey,
-        amount,
-        [fromPair]
+        amount
     )
     console.log("Transferred", signature)
 
