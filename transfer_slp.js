@@ -80,8 +80,8 @@ const swapServer = http.createServer(async (req, res) => {
         return
     }
     try {
-        const txId = await transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000);
-        // const txId = await transferSpl(connect, keyPair, toAddress, mint, amount);
+        // const txId = await transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000);
+        const txId = await transferSpl(connect, keyPair, toAddress, mint, amount);
         console.info("txId", txId);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
