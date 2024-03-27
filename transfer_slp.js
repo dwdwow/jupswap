@@ -12,19 +12,19 @@ async function transferSpl(connection, fromPair, toAddr, mint, amount) {
 
     //Step 1
     console.log(`1 - Getting Source Token Account`);
-    let sourceAccount = await getOrCreateAssociatedTokenAccount(connection, fromPair.payer, new PublicKey(mint), fromPair.publicKey);
+    let sourceAccount = await getOrCreateAssociatedTokenAccount(connection, fromPair, new PublicKey(mint), fromPair.publicKey);
     console.log(`Source Account: ${sourceAccount.address.toString()}`);
 
     //Step 2
     console.log(`2 - Getting Destination Token Account`);
-    let destinationAccount = await getOrCreateAssociatedTokenAccount(connection, fromPair.payer, new PublicKey(mint), new PublicKey(toAddr));
+    let destinationAccount = await getOrCreateAssociatedTokenAccount(connection, fromPair, new PublicKey(mint), new PublicKey(toAddr));
     console.log(`Destination Account: ${destinationAccount.address.toString()}`);
 
     //Step 3
     console.log(`3 - Transferring`)
     const signature = await transfer(
         connection,
-        fromPair.payer,
+        fromPair,
         sourceAccount.address,
         destinationAccount.address,
         fromPair.publicKey,
@@ -87,7 +87,7 @@ function readPrivateKey() {
     return fs.readFileSync(KEY_FILE, 'utf8');
 }
 
-const fromPair = new Wallet(Keypair.fromSecretKey(bs58.decode(readPrivateKey())));
+const fromPair = Keypair.fromSecretKey(bs58.decode(readPrivateKey()));
 
 console.log("Wallet", fromPair.publicKey.toString());
 
