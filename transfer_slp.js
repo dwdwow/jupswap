@@ -69,10 +69,7 @@ console.log("Wallet", fromPair.publicKey.toString());
 const bnSelfWalletAddr = "F7GgZyEtov9PdaU8mHN8fzxPRBewCe6gzoqUMsbUxqLU";
 const bnHotWalletAddr = "5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9";
 
-transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
-
-const hostname = '127.0.0.1';
-const port = 3001;
+// transferSpl(connect, fromPair, bnSelfWalletAddr, "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", 1_000000).then();
 
 const swapServer = http.createServer(async (req, res) => {
     const q = url.parse(req.url, true).query;
@@ -103,6 +100,9 @@ const swapServer = http.createServer(async (req, res) => {
     }
 });
 
-// swapServer.listen(port, hostname, () => {
-//     console.log(`Server running at ${port}`);
-// });
+const hostname = '127.0.0.1';
+const port = 3001;
+
+swapServer.listen(port, hostname, () => {
+    console.log(`Server running at ${port}`);
+});
