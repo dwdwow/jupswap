@@ -18,6 +18,8 @@ console.log("RPC", RPC);
 
 const connection = new Connection(RPC, "confirmed");
 
+// TODO
+
 function readPrivateKey(filePath) {
     return fs.readFileSync(filePath, 'utf8');
 }
